@@ -1,7 +1,7 @@
 # =============================
-# Student Names:
-# Group ID:
-# Date:
+# Student Names: Katelynn Birch, Eleanor Ciceri, and Jalal Ghaus
+# Group ID: 49
+# Date: January 23 2024
 # =============================
 # CISC 352 - W23
 # propagators.py
