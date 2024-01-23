@@ -86,8 +86,11 @@ An example of a 3x3 puzzle would be defined as:
 from cspbase import *
 
 def binary_ne_grid(cagey_grid):
-    ##IMPLEMENT
-    pass
+    csp = CSP(
+        "csp", vars=[]
+    )
+    var_array = []
+    return csp, var_array
 
 
 def nary_ad_grid(cagey_grid):
