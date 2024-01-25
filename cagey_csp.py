@@ -96,7 +96,18 @@ def binary_ne_grid(cagey_grid):
             name = "Cell" + index
             var = Variable(name, domain=range(1, n+1))
             binary_csp.add_var(var)
-    
+    for i in range (n):
+        var1 = binary_csp.get_all_vars[i]
+        for j in range(i+1, n):
+            var2 = binary_csp.get_all_vars[j]
+            tuples = []
+            for k in var1.domain:
+                for l in var2.domain:
+                    if k != l:
+                        tuples.append((k, l))
+            con = Constraint("Ineq(" + (i+1) + "," + (j+1) + ")", [var1, var2])
+            con.add_satisfying_tuples(tuples)
+            binary_csp.add_constraint(con)
     binary_vars = []
     return binary_csp, binary_vars
 
