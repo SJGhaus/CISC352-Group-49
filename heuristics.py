@@ -35,4 +35,20 @@ def ord_dh(csp):
 def ord_mrv(csp):
     ''' return variable according to the Minimum Remaining Values heuristic '''
     # IMPLEMENT
-    pass
+    unassigned = csp.get_all_unasgn_vars()
+    min = unassigned[0]
+
+    count = len(unassigned)
+
+    for i in range(count):
+        var = unassigned[i]
+        r =  var.cur_domain()
+        n = min.cur_domain()
+
+        if r < n:
+            min = var
+        elif r == n:
+            if count(var) > count(min):
+                min = var
+    
+    return min
