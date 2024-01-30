@@ -86,9 +86,7 @@ An example of a 3x3 puzzle would be defined as:
 from cspbase import *
 
 def binary_ne_grid(cagey_grid):
-    binary_csp = CSP(
-        "binary csp", vars=[]
-    )
+    binary_csp = CSP("binary csp", vars=[])
     n = cagey_grid[0]
     for i in range(1, (n+1)):
         for j in range(1, (n+1)):
@@ -108,7 +106,7 @@ def binary_ne_grid(cagey_grid):
             con = Constraint("Ineq(" + (i+1) + "," + (j+1) + ")", [var1, var2])
             con.add_satisfying_tuples(tuples)
             binary_csp.add_constraint(con)
-    binary_vars = []
+    binary_vars = binary_csp.get_all_vars
     return binary_csp, binary_vars
 
 
