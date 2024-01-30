@@ -109,6 +109,11 @@ def binary_ne_grid(cagey_grid):
     binary_vars = binary_csp.get_all_vars
     return binary_csp, binary_vars
 
+def alldiff(list):
+    for i in range(len(list)):
+        if list[i] in list[i+1:]:
+            return False
+    return True
 
 def nary_ad_grid(cagey_grid):
     ## IMPLEMENT
