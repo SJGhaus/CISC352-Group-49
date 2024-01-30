@@ -116,8 +116,17 @@ def alldiff(list):
     return True
 
 def nary_ad_grid(cagey_grid):
-    ## IMPLEMENT
-    pass
+    nary_csp = CSP("nary csp", vars=[])
+    n = cagey_grid[0]
+    for i in range(1, (n+1)):
+        for j in range(1, (n+1)):
+            index = (i, j)
+            name = "Cell" + index
+            var = Variable(name, domain=range(1, n+1))
+            nary_csp.add_var(var)
+    
+    nary_vars = nary_csp.get_all_vars
+    return nary_csp, nary_vars
 
 def cagey_csp_model(cagey_grid):
     ##IMPLEMENT
