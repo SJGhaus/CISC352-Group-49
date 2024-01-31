@@ -109,9 +109,9 @@ def binary_ne_grid(cagey_grid):
     binary_vars = binary_csp.get_all_vars
     return binary_csp, binary_vars
 
-def alldiff(list):
-    for i in range(len(list)):
-        if list[i] in list[i+1:]:
+def alldiff(vals):
+    for i in range(len(vals)):
+        if vals[i] in vals[i+1:]:
             return False
     return True
 
@@ -124,7 +124,15 @@ def nary_ad_grid(cagey_grid):
             name = "Cell" + index
             var = Variable(name, domain=range(1, n+1))
             nary_csp.add_var(var)
-    
+    rowtuples = []
+    rownum = n
+    for i in range(n):
+        row = nary_csp.get_all_vars[rownum-n:rownum-1] 
+        con = Constraint("Alldiff(" + rownum-n + ":" + rownum-1 + ")", row)
+        
+        con.add_satisfying_tuples(rowtuples)
+        nary_csp.add_constraint(con)
+        rownum += n
     nary_vars = nary_csp.get_all_vars
     return nary_csp, nary_vars
 
