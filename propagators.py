@@ -103,7 +103,7 @@ def prop_FC(csp, newVar=None):
                 outPut = (False, list2)
         
     #else:
-
+                
     return outPut
 
 
