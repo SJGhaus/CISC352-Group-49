@@ -109,11 +109,17 @@ def binary_ne_grid(cagey_grid):
     binary_vars = binary_csp.get_all_vars
     return binary_csp, binary_vars
 
-def alldiff(vals):
-    for i in range(len(vals)):
-        if vals[i] in vals[i+1:]:
-            return False
-    return True
+#generates a list of tuples satisfying n-ary alldiff
+#from www.geeksforgeeks.org/generate-all-the-permutation-of-a-list-in-python/
+def alldiff(n, domain):
+    tupleslist = []
+    for i in range(n):
+        next = domain[i]
+        rest = domain[:i] + domain[i+1:]
+        for j in alldiff(n-1, rest):
+            tup = tuple([next] + j)
+            tupleslist.append(tup)
+    return tupleslist
 
 def nary_ad_grid(cagey_grid):
     nary_csp = CSP("nary csp", vars=[])
@@ -124,12 +130,11 @@ def nary_ad_grid(cagey_grid):
             name = "Cell" + index
             var = Variable(name, domain=range(1, n+1))
             nary_csp.add_var(var)
-    rowtuples = []
     rownum = n
     for i in range(n):
         row = nary_csp.get_all_vars[rownum-n:rownum-1] 
         con = Constraint("Alldiff(" + rownum-n + ":" + rownum-1 + ")", row)
-        
+        rowtuples = alldiff(n, range(1, n+1))
         con.add_satisfying_tuples(rowtuples)
         nary_csp.add_constraint(con)
         rownum += n
