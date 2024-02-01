@@ -91,9 +91,25 @@ def prop_FC(csp, newVar=None):
     '''Do forward checking. That is check constraints with
        only one uninstantiated variable. Remember to keep
        track of all pruned variable,value pairs and return '''
-    #IMPLEMENT
-    pass
+    
+    list2 = []
 
+    if newVar is None:
+        list1 = csp.get_all_nary_cons(1)
+        for c in list1:
+            if c not in list2:
+                list2.append(c)
+            else:
+                outPut = (False, list2)
+        
+    #else:
+                
+    return outPut
+
+
+
+
+            
 
 def prop_GAC(csp, newVar=None):
     '''Do GAC propagation. If newVar is None we do initial GAC enforce

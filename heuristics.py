@@ -30,25 +30,34 @@ var_ordering == a function with the following template
 def ord_dh(csp):
     ''' return variables according to the Degree Heuristic '''
     # IMPLEMENT
-    pass
+    unassigned_vars = csp.get_all_unasgn_vars()
+    most_con = unassigned_vars[0]
+
+    const = csp.get_all_cons()
+
+    for var in unassigned_vars[1:]:
+        if const[var] >= const[most_con]:
+                most_con = var
+
+    return most_con
 
 def ord_mrv(csp):
     ''' return variable according to the Minimum Remaining Values heuristic '''
     # IMPLEMENT
-    unassigned = csp.get_all_unasgn_vars()
-    min_val = unassigned[0]
+    unassigned_vars = csp.get_all_unasgn_vars()
+    min_rem = unassigned_vars[0]
 
-    count = len(unassigned)
+    const = csp.get_all_cons()
 
-    for i in range(count):
-        var = unassigned[i]
-        var_vals =  var.cur_domain()
-        min_vals = min_val.cur_domain()
+    for var in unassigned_vars[1:]:
+        numb_pos_var = var.cur_domain_size()
+        numb_pos_min = min_rem.cur_domain_size()
 
-        if var_vals < min_vals:
-            min_val = var
-        elif var_vals == min_vals:
-            if count(var) > count(min_val):
-                min_val = var
+        if numb_pos_var < numb_pos_min:
+            min_rem = var
+
+        elif numb_pos_var == numb_pos_min:
+            if const[var] >= const[min_rem]:
+                min_rem = var
     
-    return min_val
+    return min_rem
