@@ -133,11 +133,19 @@ def nary_ad_grid(cagey_grid):
     rownum = n
     for i in range(n):
         row = nary_csp.get_all_vars[rownum-n:rownum-1] 
-        con = Constraint("Alldiff(" + rownum-n + ":" + rownum-1 + ")", row)
+        con = Constraint("Alldiff row " + i+1, row)
         rowtuples = alldiff(n, range(1, n+1))
         con.add_satisfying_tuples(rowtuples)
         nary_csp.add_constraint(con)
         rownum += n
+    colnum = 0
+    for i in range(n):
+        col = nary_csp.get_all_vars[colnum::n]
+        con = Constraint("Alldiff column " + i+1, col)
+        coltuples = alldiff(n, range(1, n+1))
+        con.add_satisfying_tuples(coltuples)
+        nary_csp.add_constraint(con)
+        colnum += 1
     nary_vars = nary_csp.get_all_vars
     return nary_csp, nary_vars
 
