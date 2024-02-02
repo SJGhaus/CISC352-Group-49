@@ -33,10 +33,9 @@ def ord_dh(csp):
     unassigned_vars = csp.get_all_unasgn_vars()
     most_con = unassigned_vars[0]
 
-    const = csp.get_all_cons()
-
     for var in unassigned_vars[1:]:
-        if const[var] >= const[most_con]:
+
+        if  len(csp.get_cons_with_var(var)) > len(csp.get_cons_with_var(most_con)):
                 most_con = var
 
     return most_con
@@ -47,8 +46,6 @@ def ord_mrv(csp):
     unassigned_vars = csp.get_all_unasgn_vars()
     min_rem = unassigned_vars[0]
 
-    const = csp.get_all_cons()
-
     for var in unassigned_vars[1:]:
         numb_pos_var = var.cur_domain_size()
         numb_pos_min = min_rem.cur_domain_size()
@@ -57,7 +54,7 @@ def ord_mrv(csp):
             min_rem = var
 
         elif numb_pos_var == numb_pos_min:
-            if const[var] >= const[min_rem]:
+            if  len(csp.get_cons_with_var(var)) >= len(csp.get_cons_with_var(min_rem)):
                 min_rem = var
     
     return min_rem
