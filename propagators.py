@@ -92,19 +92,30 @@ def prop_FC(csp, newVar=None):
        only one uninstantiated variable. Remember to keep
        track of all pruned variable,value pairs and return '''
     
-    list2 = []
+    list1 = []
 
     if newVar is None:
-        list1 = csp.get_all_nary_cons(1)
-        for c in list1:
-            if c not in list2:
-                list2.append(c)
-            else:
-                outPut = (False, list2)
-        
-    #else:
-                
-    return outPut
+        for c in csp.get_all_nary_cons(1):
+            vals = []
+            vars = c.get_scope()
+            if not c.check_tuple(vars):
+                vals.append(vars)
+                vars.prune_value(vars)
+                return False, vals
+
+    '''  
+    else:
+        for c in csp.get_cons_with_var(newVar):
+            if len(c.get_scope) == 1:
+               vals = []
+               vars = c.get_scope()
+               if not c.check_tuple(vars[0]):
+                    vals.append(vars[0])
+                    vars.prune_value(vars[0])
+                    return False, vals
+    
+    return True, vals
+    '''
 
 
 
