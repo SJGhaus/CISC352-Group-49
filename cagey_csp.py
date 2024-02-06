@@ -88,11 +88,12 @@ from cspbase import *
 def binary_ne_grid(cagey_grid):
     binary_csp = CSP("binary csp", vars=[])
     n = cagey_grid[0]
+    dom = list(range(1, n+1))
     for i in range(1, (n+1)):
         for j in range(1, (n+1)):
             index = (i, j)
             name = "Cell" + str(index)
-            var = Variable(name, domain=range(1, n+1))
+            var = Variable(name, domain=dom)
             binary_csp.add_var(var)
     for i in range (n):
         var1 = binary_csp.get_all_vars()[i]
@@ -106,8 +107,6 @@ def binary_ne_grid(cagey_grid):
                         con = Constraint("Ineq(" + str(i+1) + "," + str(j+1) + ")", [var1, var2])
                         con.add_satisfying_tuples(tuples)
                         binary_csp.add_constraint(con)
-# REMOVE THIS BEFORE SUBMITTING
-    #print(str(len(binary_csp.get_all_cons())) + " constraints")
     binary_vars = binary_csp.get_all_vars
     return binary_csp, binary_vars
 
@@ -129,17 +128,16 @@ def alldiff(n, domain):
 def nary_ad_grid(cagey_grid):
     nary_csp = CSP("nary csp", vars=[])
     n = cagey_grid[0]
+    dom = list(range(1, n+1))
     for i in range(1, (n+1)):
         for j in range(1, (n+1)):
             index = (i, j)
             name = "Cell" + str(index)
-            var = Variable(name, domain=range(1, n+1))
+            var = Variable(name, domain=dom)
             nary_csp.add_var(var)
     rownum = n
     for i in range(n):
         row = nary_csp.get_all_vars()[rownum-n:rownum-1]
-# REMOVE THIS BEFORE SUBMITTING
-        print("row: " + str(row))
         con = Constraint("Alldiff row " + str(i+1), row)
         rowtuples = []
         for perm in alldiff(n, range(1, n+1)):
@@ -150,8 +148,6 @@ def nary_ad_grid(cagey_grid):
     colnum = 0
     for i in range(n):
         col = nary_csp.get_all_vars()[colnum::n]
-# REMOVE THIS BEFORE SUBMITTING
-        print("column: " + str(col))
         con = Constraint("Alldiff column " + str(i+1), col)
         coltuples = []
         for perm in alldiff(n, range(1, n+1)):
