@@ -118,10 +118,6 @@ def prop_FC(csp, newVar=None):
     '''
 
 
-
-
-            
-
 def prop_GAC(csp, newVar=None):
     '''Do GAC propagation. If newVar is None we do initial GAC enforce
        processing all constraints. Otherwise we do GAC enforce with

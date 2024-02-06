@@ -107,7 +107,7 @@ def binary_ne_grid(cagey_grid):
                         con = Constraint("Ineq(" + str(i+1) + "," + str(j+1) + ")", [var1, var2])
                         con.add_satisfying_tuples(tuples)
                         binary_csp.add_constraint(con)
-    binary_vars = binary_csp.get_all_vars
+    binary_vars = binary_csp.get_all_vars()
     return binary_csp, binary_vars
 
 #generates a list of tuples satisfying n-ary alldiff
@@ -155,9 +155,51 @@ def nary_ad_grid(cagey_grid):
         con.add_satisfying_tuples(coltuples)
         nary_csp.add_constraint(con)
         colnum += 1
-    nary_vars = nary_csp.get_all_vars
+    nary_vars = nary_csp.get_all_vars()
     return nary_csp, nary_vars
 
+#generates a list of permutations that satisfy the cage constraint
+def solve_cage(n, op, target):
+    domain = list(range(1, n+1))
+    perms = alldiff(n, domain)
+    valid = []
+    for perm in perms:
+        result = perm[0]
+        if op == "+":
+            result = sum(perm)
+        elif op == "-":
+            for val in perm[1:]:
+                result -= val
+        elif op == "*":
+            for val in perm[1:]:
+                result *= val
+        elif op == "/":
+            for val in perm[1:]:
+                result /= val
+        if result == target:
+            valid.append(perm)
+    return valid
+
 def cagey_csp_model(cagey_grid):
-    ##IMPLEMENT
-    pass
+    cagey_csp, vars = binary_ne_grid(cagey_grid)
+    for cage in cagey_grid[1]:
+        cagenum = 1
+        target = cage[0]
+        indices = cage[1]
+        op = cage[2]
+        vars = []
+        for index in indices:
+            for var in cagey_csp.get_all_vars():
+                if var.name == "Cell " + str(index):
+                    vars.append(var)
+                    break
+        con = Constraint("Cage " + str(cagenum), vars)
+        lists = solve_cage(cagey_grid[0], op, target)
+        tuples = []
+        for l in lists:
+            tuples.append(tuple(l))
+        con.add_satisfying_tuples(tuples)
+        cagey_csp.add_constraint(con)
+        cagenum += 1
+    cagey_vars = cagey_csp.get_all_vars()
+    return cagey_csp, cagey_vars
